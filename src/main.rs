@@ -1,8 +1,20 @@
-use std::{collections::HashMap, fs, time::Duration};
+use std::{collections::HashMap, fs, time::Duration, fmt::Display};
 
 use object::{Object, ObjectSymbol};
 use probe_rs::{flashing, Core, MemoryInterface, Permissions, Session};
 use symex::{general_assembly::RunConfig, run_elf};
+
+struct Measurement {
+    name: String,
+    hw: u64,
+    symex: u64,
+}
+
+impl Display for Measurement {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}\t{}\t{}", self.name, self.hw, self.symex)
+    }
+}
 
 fn main() {
     println!("Utility to measure HW cycles for the rp2040");
@@ -11,13 +23,24 @@ fn main() {
 
     println!("attached to rp2040 {:?}", session.architecture());
 
-    let path = "test_binarys/calc_crc";
+    println!("name\t\thw\tsymex");
+    for to_test in fs::read_dir("test_binarys").unwrap() {
+        let path = to_test.unwrap().path();
+        let path_str = path.to_string_lossy().to_string();
+        let name = path_str.split('/').last().unwrap();
+        let hw_measurement = measure_hw(&path_str, &mut session);
 
-    let hw_measurement = measure_hw(path, &mut session);
-    println!("HW measurement: {} cycles", hw_measurement);
+        let symex_measurement = measure_symex(&path_str);
 
-    let symex_measurement = measure_symex(path);
-    println!("Symex measurement: {} cycles", symex_measurement);
+        let measurement = Measurement {
+            name: name.to_owned(),
+            hw: hw_measurement,
+            symex: symex_measurement,
+        };
+
+        println!("{}", measurement);
+
+    }
 }
 
 fn measure_symex(path: &str) -> u64 {
