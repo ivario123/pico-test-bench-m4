@@ -1,5 +1,5 @@
 [package]
-name = "measure-hw"
+name = "Pico-test-bench"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 object = "0.32.2"
-probe-rs = "0.21.1"
+probe-rs = "0.22"
 symex = { git = "https://github.com/s7rul/symex", branch = "armv6-m" }

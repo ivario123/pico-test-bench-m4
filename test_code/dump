@@ -1,0 +1,315 @@
+[2m2024-01-05T11:05:33.581888Z[0m [34mDEBUG[0m [2mcargo_symex[0m[2m:[0m received arguments: ["/home/s7rul/.cargo/bin/cargo-symex", "symex", "--elf", "--release", "--example", "test_trait", "--function", "measure"]    
+[2m2024-01-05T11:05:33.581919Z[0m [34mDEBUG[0m [2mcargo_symex[0m[2m:[0m used as cargo subcommand: removing symex as second argument    
+[2m2024-01-05T11:05:33.581986Z[0m [34mDEBUG[0m [2mcargo_symex[0m[2m:[0m Run elf file.    
+[2m2024-01-05T11:05:33.983479Z[0m [34mDEBUG[0m [2mcargo_symex[0m[2m:[0m cargo output: Output { status: ExitStatus(unix_wait_status(0)), stdout: "", stderr: "   Compiling rp2040-rtic v0.1.0 (/home/s7rul/code/rust/arm-symex/pico-test-bench/test_code)\nwarning: unused import: `SYST`\n --> examples/test_trait.rs:9:49\n  |\n9 | use cortex_m::peripheral::{syst::SystClkSource, SYST};\n  |                                                 ^^^^\n  |\n  = note: `#[warn(unused_imports)]` on by default\n\nwarning: unused import: `embedded_hal::digital::v2::OutputPin`\n  --> examples/test_trait.rs:12:5\n   |\n12 | use embedded_hal::digital::v2::OutputPin;\n   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: unused import: `Clock`\n  --> examples/test_trait.rs:19:36\n   |\n19 |     clocks::{init_clocks_and_plls, Clock},\n   |                                    ^^^^^\n\nwarning: unused variable: `sio`\n  --> examples/test_trait.rs:32:9\n   |\n32 |     let sio = Sio::new(pac.SIO);\n   |         ^^^ help: if this is intentional, prefix it with an underscore: `_sio`\n   |\n   = note: `#[warn(unused_variables)]` on by default\n\nwarning: unused variable: `clocks`\n  --> examples/test_trait.rs:36:9\n   |\n36 |     let clocks = init_clocks_and_plls(\n   |         ^^^^^^ help: if this is intentional, prefix it with an underscore: `_clocks`\n\nwarning: variable does not need to be mutable\n  --> examples/test_trait.rs:67:12\n   |\n67 | fn measure(mut data1: [u8; 3]) -> [u8; 3] {\n   |            ----^^^^^\n   |            |\n   |            help: remove this `mut`\n   |\n   = note: `#[warn(unused_mut)]` on by default\n\nwarning: `rp2040-rtic` (example \"test_trait\") generated 6 warnings (run `cargo fix --example \"test_trait\"` to apply 6 suggestions)\n    Finished release [optimized + debuginfo] target(s) in 0.37s\n" }    
+[2m2024-01-05T11:05:34.018687Z[0m [34mDEBUG[0m [2mcargo_project[0m[2m:[0m Project::query(path=/home/s7rul/code/rust/arm-symex/pico-test-bench/test_code): root=/home/s7rul/code/rust/arm-symex/pico-test-bench/test_code    
+[2m2024-01-05T11:05:34.018818Z[0m [34mDEBUG[0m [2mcargo_project[0m[2m:[0m workspace search: cwd=/home/s7rul/code/rust/arm-symex/pico-test-bench    
+[2m2024-01-05T11:05:34.018851Z[0m [34mDEBUG[0m [2mcargo_project[0m[2m:[0m workspace search: cwd=/home/s7rul/code/rust/arm-symex    
+[2m2024-01-05T11:05:34.056465Z[0m [34mDEBUG[0m [2mcargo_project[0m[2m:[0m Project::query(path=/home/s7rul/code/rust/arm-symex/pico-test-bench/test_code): root=/home/s7rul/code/rust/arm-symex/pico-test-bench/test_code    
+[2m2024-01-05T11:05:34.056600Z[0m [34mDEBUG[0m [2mcargo_project[0m[2m:[0m workspace search: cwd=/home/s7rul/code/rust/arm-symex/pico-test-bench    
+[2m2024-01-05T11:05:34.056632Z[0m [34mDEBUG[0m [2mcargo_project[0m[2m:[0m workspace search: cwd=/home/s7rul/code/rust/arm-symex    
+[2m2024-01-05T11:05:34.056649Z[0m [34mDEBUG[0m [2mcargo_symex[0m[2m:[0m target dir: "/home/s7rul/code/rust/arm-symex/pico-test-bench/test_code/target/thumbv6m-none-eabi/release/examples", target name: test_trait    
+[2m2024-01-05T11:05:34.056658Z[0m [34mDEBUG[0m [2mcargo_symex[0m[2m:[0m Starting analasys on target: /home/s7rul/code/rust/arm-symex/pico-test-bench/test_code/target/thumbv6m-none-eabi/release/examples/test_trait, function: measure    
+[2m2024-01-05T11:05:34.056997Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Parsing elf file: /home/s7rul/code/rust/arm-symex/pico-test-bench/test_code/target/thumbv6m-none-eabi/release/examples/test_trait
+[2m2024-01-05T11:05:34.057764Z[0m [35mTRACE[0m [2msymex::general_assembly::project::dwarf_helper[0m[2m:[0m Constructing PC hooks
+[2m2024-01-05T11:05:34.058002Z[0m [35mTRACE[0m [2msymex::general_assembly::project::dwarf_helper[0m[2m:[0m found hook for ^panic_cold_explicit$ att addr: 0x210013CA
+[2m2024-01-05T11:05:34.058125Z[0m [35mTRACE[0m [2msymex::general_assembly::project::dwarf_helper[0m[2m:[0m found hook for ^panic$ att addr: 0x21001774
+[2m2024-01-05T11:05:34.058505Z[0m [35mTRACE[0m [2msymex::general_assembly::project::dwarf_helper[0m[2m:[0m found hook for ^panic$ att addr: 0x210009A8
+[2m2024-01-05T11:05:34.058549Z[0m [35mTRACE[0m [2msymex::general_assembly::project::dwarf_helper[0m[2m:[0m found hook for ^start_cyclecount$ att addr: 0x21001A18
+[2m2024-01-05T11:05:34.058561Z[0m [35mTRACE[0m [2msymex::general_assembly::project::dwarf_helper[0m[2m:[0m found hook for ^end_cyclecount$ att addr: 0x21001A24
+[2m2024-01-05T11:05:34.058578Z[0m [34mDEBUG[0m [2msymex::general_assembly::project::dwarf_helper[0m[2m:[0m Did not find addresses for all hooks.
+[2m2024-01-05T11:05:34.058588Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Created pc hooks: {553654132: EndFaliure("panic"), 553653194: EndFaliure("explicit panic"), 553650600: EndFaliure("panic"), 553654808: Intrinsic(0x5640f28d0610), 553654820: Intrinsic(0x5640f28d02f0)}
+[2m2024-01-05T11:05:34.058622Z[0m [34mDEBUG[0m [2msymex::run_elf[0m[2m:[0m Created project: Project { word_size: Bit32, endianness: Little, architecture: Arm }
+[2m2024-01-05T11:05:34.058628Z[0m [32m INFO[0m [2msymex::run_elf[0m[2m:[0m create VM
+[2m2024-01-05T11:05:34.058632Z[0m [34mDEBUG[0m [2msymex::general_assembly::state[0m[2m:[0m Found function at addr: 0x210000A9.
+[2m2024-01-05T11:05:34.058635Z[0m [34mDEBUG[0m [2msymex::general_assembly::state[0m[2m:[0m Found stack start at addr: 0x21020000.
+[2m2024-01-05T11:05:34.058654Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000A8
+[2m2024-01-05T11:05:34.058659Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b1011010111010000
+[2m2024-01-05T11:05:34.058664Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: PUSH { reg_list: [R4, R6, R7, LR] } }
+[2m2024-01-05T11:05:34.058672Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 0, for None
+[2m2024-01-05T11:05:34.058676Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Sub { destination: Local("Address"), operand1: Register("SP"), operand2: Immidiate(Word32(16)) }, Move { destination: AddressInLocal("Address", 32), source: Register("R4") }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Move { destination: AddressInLocal("Address", 32), source: Register("R6") }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Move { destination: AddressInLocal("Address", 32), source: Register("R7") }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Move { destination: AddressInLocal("Address", 32), source: Register("LR") }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Sub { destination: Register("SP"), operand1: Register("SP"), operand2: Immidiate(Word32(16)) }], max_cycle: Value(5) }
+[2m2024-01-05T11:05:34.058691Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Sub { destination: Local("Address"), operand1: Register("SP"), operand2: Immidiate(Word32(16)) }
+[2m2024-01-05T11:05:34.058699Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: AddressInLocal("Address", 32), source: Register("R4") }
+[2m2024-01-05T11:05:34.058707Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting memmory addr: BoolectorExpr(#x2101fff0)
+[2m2024-01-05T11:05:34.058804Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }
+[2m2024-01-05T11:05:34.058810Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: AddressInLocal("Address", 32), source: Register("R6") }
+[2m2024-01-05T11:05:34.058817Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting memmory addr: BoolectorExpr(#x2101fff4)
+[2m2024-01-05T11:05:34.058875Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }
+[2m2024-01-05T11:05:34.058882Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: AddressInLocal("Address", 32), source: Register("R7") }
+[2m2024-01-05T11:05:34.058887Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting memmory addr: BoolectorExpr(#x2101fff8)
+[2m2024-01-05T11:05:34.058944Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }
+[2m2024-01-05T11:05:34.058950Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: AddressInLocal("Address", 32), source: Register("LR") }
+[2m2024-01-05T11:05:34.058954Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting memmory addr: BoolectorExpr(#x2101fffc)
+[2m2024-01-05T11:05:34.059011Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }
+[2m2024-01-05T11:05:34.059017Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Sub { destination: Register("SP"), operand1: Register("SP"), operand2: Immidiate(Word32(16)) }
+[2m2024-01-05T11:05:34.059023Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register SP to BoolectorExpr(#x2101fff0)
+[2m2024-01-05T11:05:34.059043Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000AA
+[2m2024-01-05T11:05:34.059048Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b1010111100000010
+[2m2024-01-05T11:05:34.059051Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: ADDImmSP { d: R7, imm: 8 } }
+[2m2024-01-05T11:05:34.059056Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 5, for Some(Instruction { instruction_size: 16, operations: [Sub { destination: Local("Address"), operand1: Register("SP"), operand2: Immidiate(Word32(16)) }, Move { destination: AddressInLocal("Address", 32), source: Register("R4") }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Move { destination: AddressInLocal("Address", 32), source: Register("R6") }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Move { destination: AddressInLocal("Address", 32), source: Register("R7") }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Move { destination: AddressInLocal("Address", 32), source: Register("LR") }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Sub { destination: Register("SP"), operand1: Register("SP"), operand2: Immidiate(Word32(16)) }], max_cycle: Value(5) })
+[2m2024-01-05T11:05:34.059064Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Add { destination: Register("R7"), operand1: Register("SP"), operand2: Immidiate(Word32(8)) }], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.059073Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Register("R7"), operand1: Register("SP"), operand2: Immidiate(Word32(8)) }
+[2m2024-01-05T11:05:34.059078Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R7 to BoolectorExpr(#x2101fff8)
+[2m2024-01-05T11:05:34.059100Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000AC
+[2m2024-01-05T11:05:34.059104Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0100011000000100
+[2m2024-01-05T11:05:34.059107Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: MOVReg { m: R0, d: R4, set_flags: false } }
+[2m2024-01-05T11:05:34.059112Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Add { destination: Register("R7"), operand1: Register("SP"), operand2: Immidiate(Word32(8)) }], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.059117Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Move { destination: Register("R4"), source: Register("R0") }], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.059123Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("R4"), source: Register("R0") }
+[2m2024-01-05T11:05:34.059128Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R4 to BoolectorExpr((declare-fun BTOR_2@R0 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.059149Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000AE
+[2m2024-01-05T11:05:34.059154Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b11110000000000011111110010110011
+[2m2024-01-05T11:05:34.059157Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit32, operation: BL { imm: 6502 } }
+[2m2024-01-05T11:05:34.059162Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Move { destination: Register("R4"), source: Register("R0") }], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.059166Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 32, operations: [Move { destination: Local("PC"), source: Register("PC") }, Move { destination: Register("LR"), source: Local("PC") }, Add { destination: Local("newPC"), operand1: Local("PC"), operand2: Immidiate(Word32(6502)) }, Move { destination: Register("PC"), source: Local("newPC") }], max_cycle: Value(3) }
+[2m2024-01-05T11:05:34.059172Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Local("PC"), source: Register("PC") }
+[2m2024-01-05T11:05:34.059177Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("LR"), source: Local("PC") }
+[2m2024-01-05T11:05:34.059180Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register LR to BoolectorExpr(#x210000b3)
+[2m2024-01-05T11:05:34.059200Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("newPC"), operand1: Local("PC"), operand2: Immidiate(Word32(6502)) }
+[2m2024-01-05T11:05:34.059206Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("PC"), source: Local("newPC") }
+[2m2024-01-05T11:05:34.059210Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register PC to BoolectorExpr(#x21001a19)
+[2m2024-01-05T11:05:34.059232Z[0m [35mTRACE[0m [2msymex::run_elf[0m[2m:[0m Reset the cycle count (cycle count: 0)
+[2m2024-01-05T11:05:34.059235Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000B2
+[2m2024-01-05T11:05:34.059238Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b1011111000000001
+[2m2024-01-05T11:05:34.059242Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: BKPT { imm: 1 } }
+[2m2024-01-05T11:05:34.059246Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 0, for None
+[2m2024-01-05T11:05:34.059249Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [], max_cycle: Value(0) }
+[2m2024-01-05T11:05:34.059255Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000B4
+[2m2024-01-05T11:05:34.059259Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0100011000100000
+[2m2024-01-05T11:05:34.059262Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: MOVReg { m: R4, d: R0, set_flags: false } }
+[2m2024-01-05T11:05:34.059266Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 0, for Some(Instruction { instruction_size: 16, operations: [], max_cycle: Value(0) })
+[2m2024-01-05T11:05:34.059270Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Move { destination: Register("R0"), source: Register("R4") }], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.059275Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("R0"), source: Register("R4") }
+[2m2024-01-05T11:05:34.059279Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R0 to BoolectorExpr((declare-fun BTOR_2@R0 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.059299Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000B6
+[2m2024-01-05T11:05:34.059303Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b11110000000000001111100000000110
+[2m2024-01-05T11:05:34.059306Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit32, operation: BL { imm: 12 } }
+[2m2024-01-05T11:05:34.059311Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Move { destination: Register("R0"), source: Register("R4") }], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.059314Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 32, operations: [Move { destination: Local("PC"), source: Register("PC") }, Move { destination: Register("LR"), source: Local("PC") }, Add { destination: Local("newPC"), operand1: Local("PC"), operand2: Immidiate(Word32(12)) }, Move { destination: Register("PC"), source: Local("newPC") }], max_cycle: Value(3) }
+[2m2024-01-05T11:05:34.059321Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Local("PC"), source: Register("PC") }
+[2m2024-01-05T11:05:34.059325Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("LR"), source: Local("PC") }
+[2m2024-01-05T11:05:34.059329Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register LR to BoolectorExpr(#x210000bb)
+[2m2024-01-05T11:05:34.059349Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("newPC"), operand1: Local("PC"), operand2: Immidiate(Word32(12)) }
+[2m2024-01-05T11:05:34.059357Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("PC"), source: Local("newPC") }
+[2m2024-01-05T11:05:34.059361Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register PC to BoolectorExpr(#x210000c7)
+[2m2024-01-05T11:05:34.059384Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000C6
+[2m2024-01-05T11:05:34.059388Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0010000111111111
+[2m2024-01-05T11:05:34.059392Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: MOVImm { d: R1, imm: 255 } }
+[2m2024-01-05T11:05:34.059396Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 3, for Some(Instruction { instruction_size: 32, operations: [Move { destination: Local("PC"), source: Register("PC") }, Move { destination: Register("LR"), source: Local("PC") }, Add { destination: Local("newPC"), operand1: Local("PC"), operand2: Immidiate(Word32(12)) }, Move { destination: Register("PC"), source: Local("newPC") }], max_cycle: Value(3) })
+[2m2024-01-05T11:05:34.059401Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Move { destination: Register("R1"), source: Immidiate(Word32(255)) }, SetNFlag(Register("R1")), SetZFlag(Register("R1"))], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.059407Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("R1"), source: Immidiate(Word32(255)) }
+[2m2024-01-05T11:05:34.059411Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R1 to BoolectorExpr(#x000000ff)
+[2m2024-01-05T11:05:34.059431Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetNFlag(Register("R1"))
+[2m2024-01-05T11:05:34.059438Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag N set to BoolectorExpr(false)
+[2m2024-01-05T11:05:34.059458Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetZFlag(Register("R1"))
+[2m2024-01-05T11:05:34.059464Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag Z set to BoolectorExpr(false)
+[2m2024-01-05T11:05:34.059482Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000C8
+[2m2024-01-05T11:05:34.059486Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0000001000001010
+[2m2024-01-05T11:05:34.059489Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: LSLImm { imm: 8, m: R1, d: R2 } }
+[2m2024-01-05T11:05:34.059494Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Move { destination: Register("R1"), source: Immidiate(Word32(255)) }, SetNFlag(Register("R1")), SetZFlag(Register("R1"))], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.059499Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Sl { destination: Register("R2"), operand: Register("R1"), shift: Immidiate(Word32(8)) }, SetNFlag(Register("R2")), SetZFlag(Register("R2"))], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.059505Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Sl { destination: Register("R2"), operand: Register("R1"), shift: Immidiate(Word32(8)) }
+[2m2024-01-05T11:05:34.059510Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R2 to BoolectorExpr(#x0000ff00)
+[2m2024-01-05T11:05:34.059533Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetNFlag(Register("R2"))
+[2m2024-01-05T11:05:34.059539Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag N set to BoolectorExpr(false)
+[2m2024-01-05T11:05:34.059558Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetZFlag(Register("R2"))
+[2m2024-01-05T11:05:34.059563Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag Z set to BoolectorExpr(false)
+[2m2024-01-05T11:05:34.059582Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000CA
+[2m2024-01-05T11:05:34.059586Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0100000000000010
+[2m2024-01-05T11:05:34.059590Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: ANDReg { m: R0, dn: R2 } }
+[2m2024-01-05T11:05:34.059594Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Sl { destination: Register("R2"), operand: Register("R1"), shift: Immidiate(Word32(8)) }, SetNFlag(Register("R2")), SetZFlag(Register("R2"))], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.059598Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [And { destination: Register("R2"), operand1: Register("R2"), operand2: Register("R0") }, SetNFlag(Register("R2")), SetZFlag(Register("R2"))], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.059605Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: And { destination: Register("R2"), operand1: Register("R2"), operand2: Register("R0") }
+[2m2024-01-05T11:05:34.059610Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R2 to BoolectorExpr((bvand BTOR_2@R0 #x0000ff00))
+[2m2024-01-05T11:05:34.059633Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetNFlag(Register("R2"))
+[2m2024-01-05T11:05:34.059641Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag N set to BoolectorExpr(false)
+[2m2024-01-05T11:05:34.059661Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetZFlag(Register("R2"))
+[2m2024-01-05T11:05:34.059667Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag Z set to BoolectorExpr((= #x00000000 (bvand BTOR_2@R0 #x0000ff00)))
+[2m2024-01-05T11:05:34.059690Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000CC
+[2m2024-01-05T11:05:34.059694Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0000010000000011
+[2m2024-01-05T11:05:34.059698Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: LSLImm { imm: 16, m: R0, d: R3 } }
+[2m2024-01-05T11:05:34.059702Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [And { destination: Register("R2"), operand1: Register("R2"), operand2: Register("R0") }, SetNFlag(Register("R2")), SetZFlag(Register("R2"))], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.059707Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Sl { destination: Register("R3"), operand: Register("R0"), shift: Immidiate(Word32(16)) }, SetNFlag(Register("R3")), SetZFlag(Register("R3"))], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.059713Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Sl { destination: Register("R3"), operand: Register("R0"), shift: Immidiate(Word32(16)) }
+[2m2024-01-05T11:05:34.059722Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R3 to BoolectorExpr((concat ((_ extract 15 0) BTOR_2@R0) #x0000))
+[2m2024-01-05T11:05:34.059746Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetNFlag(Register("R3"))
+[2m2024-01-05T11:05:34.059752Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag N set to BoolectorExpr(((_ extract 15 15) BTOR_2@R0))
+[2m2024-01-05T11:05:34.059774Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetZFlag(Register("R3"))
+[2m2024-01-05T11:05:34.059782Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag Z set to BoolectorExpr((= #x0000 ((_ extract 15 0) BTOR_2@R0)))
+[2m2024-01-05T11:05:34.059805Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000CE
+[2m2024-01-05T11:05:34.059809Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0001100010011010
+[2m2024-01-05T11:05:34.059812Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: ADDReg { m: R2, n: R3, d: R2 } }
+[2m2024-01-05T11:05:34.059818Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Sl { destination: Register("R3"), operand: Register("R0"), shift: Immidiate(Word32(16)) }, SetNFlag(Register("R3")), SetZFlag(Register("R3"))], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.059822Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Move { destination: Local("m"), source: Register("R2") }, Move { destination: Local("n"), source: Register("R3") }, Add { destination: Register("R2"), operand1: Register("R3"), operand2: Register("R2") }, SetNFlag(Register("R2")), SetZFlag(Register("R2")), SetCFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }, SetVFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.059830Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Local("m"), source: Register("R2") }
+[2m2024-01-05T11:05:34.059835Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Local("n"), source: Register("R3") }
+[2m2024-01-05T11:05:34.059839Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Register("R2"), operand1: Register("R3"), operand2: Register("R2") }
+[2m2024-01-05T11:05:34.059843Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R2 to BoolectorExpr((bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)))
+[2m2024-01-05T11:05:34.059871Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetNFlag(Register("R2"))
+[2m2024-01-05T11:05:34.059876Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag N set to BoolectorExpr(((_ extract 31 31) (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000))))
+[2m2024-01-05T11:05:34.059902Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetZFlag(Register("R2"))
+[2m2024-01-05T11:05:34.059909Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag Z set to BoolectorExpr((= #x00000000 (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000))))
+[2m2024-01-05T11:05:34.059934Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetCFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }
+[2m2024-01-05T11:05:34.059943Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag C set to BoolectorExpr(((_ extract 32 32) (bvadd (concat (concat #b0 ((_ extract 15 0) BTOR_2@R0)) #x0000) (bvand (concat #b0 BTOR_2@R0) #b000000000000000001111111100000000))))
+[2m2024-01-05T11:05:34.059975Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetVFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }
+[2m2024-01-05T11:05:34.059984Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag V set to BoolectorExpr((bvand (bvnot ((_ extract 15 15) BTOR_2@R0)) ((_ extract 31 31) (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)))))
+[2m2024-01-05T11:05:34.060014Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000D0
+[2m2024-01-05T11:05:34.060017Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0000010000001001
+[2m2024-01-05T11:05:34.060021Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: LSLImm { imm: 16, m: R1, d: R1 } }
+[2m2024-01-05T11:05:34.060025Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Move { destination: Local("m"), source: Register("R2") }, Move { destination: Local("n"), source: Register("R3") }, Add { destination: Register("R2"), operand1: Register("R3"), operand2: Register("R2") }, SetNFlag(Register("R2")), SetZFlag(Register("R2")), SetCFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }, SetVFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.060031Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Sl { destination: Register("R1"), operand: Register("R1"), shift: Immidiate(Word32(16)) }, SetNFlag(Register("R1")), SetZFlag(Register("R1"))], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.060038Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Sl { destination: Register("R1"), operand: Register("R1"), shift: Immidiate(Word32(16)) }
+[2m2024-01-05T11:05:34.060045Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R1 to BoolectorExpr(#x00ff0000)
+[2m2024-01-05T11:05:34.060066Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetNFlag(Register("R1"))
+[2m2024-01-05T11:05:34.060071Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag N set to BoolectorExpr(false)
+[2m2024-01-05T11:05:34.060090Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetZFlag(Register("R1"))
+[2m2024-01-05T11:05:34.060096Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag Z set to BoolectorExpr(false)
+[2m2024-01-05T11:05:34.060115Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000D2
+[2m2024-01-05T11:05:34.060119Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0100000000000001
+[2m2024-01-05T11:05:34.060122Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: ANDReg { m: R0, dn: R1 } }
+[2m2024-01-05T11:05:34.060126Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Sl { destination: Register("R1"), operand: Register("R1"), shift: Immidiate(Word32(16)) }, SetNFlag(Register("R1")), SetZFlag(Register("R1"))], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.060131Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [And { destination: Register("R1"), operand1: Register("R1"), operand2: Register("R0") }, SetNFlag(Register("R1")), SetZFlag(Register("R1"))], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.060141Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: And { destination: Register("R1"), operand1: Register("R1"), operand2: Register("R0") }
+[2m2024-01-05T11:05:34.060146Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R1 to BoolectorExpr((bvand BTOR_2@R0 #x00ff0000))
+[2m2024-01-05T11:05:34.060169Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetNFlag(Register("R1"))
+[2m2024-01-05T11:05:34.060179Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag N set to BoolectorExpr(false)
+[2m2024-01-05T11:05:34.060199Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetZFlag(Register("R1"))
+[2m2024-01-05T11:05:34.060205Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag Z set to BoolectorExpr((= #x00000000 (bvand BTOR_2@R0 #x00ff0000)))
+[2m2024-01-05T11:05:34.060228Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000D4
+[2m2024-01-05T11:05:34.060233Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0000110000001000
+[2m2024-01-05T11:05:34.060236Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: LSRImm { imm: 16, m: R1, d: R0 } }
+[2m2024-01-05T11:05:34.060241Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [And { destination: Register("R1"), operand1: Register("R1"), operand2: Register("R0") }, SetNFlag(Register("R1")), SetZFlag(Register("R1"))], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.060245Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Srl { destination: Register("R0"), operand: Register("R1"), shift: Immidiate(Word32(16)) }, SetNFlag(Register("R0")), SetZFlag(Register("R0"))], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.060252Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Srl { destination: Register("R0"), operand: Register("R1"), shift: Immidiate(Word32(16)) }
+[2m2024-01-05T11:05:34.060260Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R0 to BoolectorExpr((bvand #x000000ff (concat #x0000 ((_ extract 31 16) BTOR_2@R0))))
+[2m2024-01-05T11:05:34.060287Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetNFlag(Register("R0"))
+[2m2024-01-05T11:05:34.060294Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag N set to BoolectorExpr(false)
+[2m2024-01-05T11:05:34.060315Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetZFlag(Register("R0"))
+[2m2024-01-05T11:05:34.060320Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag Z set to BoolectorExpr((= #x00000000 (bvand #x000000ff (concat #x0000 ((_ extract 31 16) BTOR_2@R0)))))
+[2m2024-01-05T11:05:34.060346Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000D6
+[2m2024-01-05T11:05:34.060350Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0001100000010000
+[2m2024-01-05T11:05:34.060353Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: ADDReg { m: R0, n: R2, d: R0 } }
+[2m2024-01-05T11:05:34.060359Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Srl { destination: Register("R0"), operand: Register("R1"), shift: Immidiate(Word32(16)) }, SetNFlag(Register("R0")), SetZFlag(Register("R0"))], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.060367Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Move { destination: Local("m"), source: Register("R0") }, Move { destination: Local("n"), source: Register("R2") }, Add { destination: Register("R0"), operand1: Register("R2"), operand2: Register("R0") }, SetNFlag(Register("R0")), SetZFlag(Register("R0")), SetCFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }, SetVFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.060375Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Local("m"), source: Register("R0") }
+[2m2024-01-05T11:05:34.060379Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Local("n"), source: Register("R2") }
+[2m2024-01-05T11:05:34.060383Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Register("R0"), operand1: Register("R2"), operand2: Register("R0") }
+[2m2024-01-05T11:05:34.060388Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R0 to BoolectorExpr((bvadd (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)) (bvand #x000000ff (concat #x0000 ((_ extract 31 16) BTOR_2@R0)))))
+[2m2024-01-05T11:05:34.060418Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetNFlag(Register("R0"))
+[2m2024-01-05T11:05:34.060425Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag N set to BoolectorExpr(((_ extract 31 31) (bvadd (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)) (bvand #x000000ff (concat #x0000 ((_ extract 31 16) BTOR_2@R0))))))
+[2m2024-01-05T11:05:34.060454Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetZFlag(Register("R0"))
+[2m2024-01-05T11:05:34.060460Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag Z set to BoolectorExpr((= #x00000000 (bvadd (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)) (bvand #x000000ff (concat #x0000 ((_ extract 31 16) BTOR_2@R0))))))
+[2m2024-01-05T11:05:34.060489Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetCFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }
+[2m2024-01-05T11:05:34.060502Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag C set to BoolectorExpr(((_ extract 32 32) (bvadd (concat #b0 (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000))) (bvand #b000000000000000000000000011111111 (concat #b00000000000000000 ((_ extract 31 16) BTOR_2@R0))))))
+[2m2024-01-05T11:05:34.060534Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: SetVFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }
+[2m2024-01-05T11:05:34.060542Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m flag V set to BoolectorExpr((let (($e1 (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)))) (bvand (bvnot ((_ extract 31 31) $e1)) ((_ extract 31 31) (bvadd $e1 (bvand #x000000ff (concat #x0000 ((_ extract 31 16) BTOR_2@R0))))))))
+[2m2024-01-05T11:05:34.060574Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000D8
+[2m2024-01-05T11:05:34.060578Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0100011101110000
+[2m2024-01-05T11:05:34.060581Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: BX { m: LR } }
+[2m2024-01-05T11:05:34.060586Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Move { destination: Local("m"), source: Register("R0") }, Move { destination: Local("n"), source: Register("R2") }, Add { destination: Register("R0"), operand1: Register("R2"), operand2: Register("R0") }, SetNFlag(Register("R0")), SetZFlag(Register("R0")), SetCFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }, SetVFlag { operand1: Local("n"), operand2: Local("m"), sub: false, carry: false }], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.060595Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Move { destination: Register("PC"), source: Register("LR") }], max_cycle: Value(2) }
+[2m2024-01-05T11:05:34.060601Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("PC"), source: Register("LR") }
+[2m2024-01-05T11:05:34.060605Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register PC to BoolectorExpr(#x210000bb)
+[2m2024-01-05T11:05:34.060628Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000BA
+[2m2024-01-05T11:05:34.060631Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0100011000000100
+[2m2024-01-05T11:05:34.060634Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: MOVReg { m: R0, d: R4, set_flags: false } }
+[2m2024-01-05T11:05:34.060638Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 2, for Some(Instruction { instruction_size: 16, operations: [Move { destination: Register("PC"), source: Register("LR") }], max_cycle: Value(2) })
+[2m2024-01-05T11:05:34.060642Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Move { destination: Register("R4"), source: Register("R0") }], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.060648Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("R4"), source: Register("R0") }
+[2m2024-01-05T11:05:34.060652Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R4 to BoolectorExpr((bvadd (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)) (bvand #x000000ff (concat #x0000 ((_ extract 31 16) BTOR_2@R0)))))
+[2m2024-01-05T11:05:34.060681Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000BC
+[2m2024-01-05T11:05:34.060685Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b1011111000000001
+[2m2024-01-05T11:05:34.060689Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: BKPT { imm: 1 } }
+[2m2024-01-05T11:05:34.060693Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 1, for Some(Instruction { instruction_size: 16, operations: [Move { destination: Register("R4"), source: Register("R0") }], max_cycle: Value(1) })
+[2m2024-01-05T11:05:34.060697Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [], max_cycle: Value(0) }
+[2m2024-01-05T11:05:34.060703Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000BE
+[2m2024-01-05T11:05:34.060707Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b11110000000000011111110010110001
+[2m2024-01-05T11:05:34.060710Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit32, operation: BL { imm: 6498 } }
+[2m2024-01-05T11:05:34.060714Z[0m [35mTRACE[0m [2msymex::general_assembly::state[0m[2m:[0m Incrementing cycles: 0, for Some(Instruction { instruction_size: 16, operations: [], max_cycle: Value(0) })
+[2m2024-01-05T11:05:34.060721Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 32, operations: [Move { destination: Local("PC"), source: Register("PC") }, Move { destination: Register("LR"), source: Local("PC") }, Add { destination: Local("newPC"), operand1: Local("PC"), operand2: Immidiate(Word32(6498)) }, Move { destination: Register("PC"), source: Local("newPC") }], max_cycle: Value(3) }
+[2m2024-01-05T11:05:34.060727Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Local("PC"), source: Register("PC") }
+[2m2024-01-05T11:05:34.060731Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("LR"), source: Local("PC") }
+[2m2024-01-05T11:05:34.060735Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register LR to BoolectorExpr(#x210000c3)
+[2m2024-01-05T11:05:34.060757Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("newPC"), operand1: Local("PC"), operand2: Immidiate(Word32(6498)) }
+[2m2024-01-05T11:05:34.060764Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("PC"), source: Local("newPC") }
+[2m2024-01-05T11:05:34.060767Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register PC to BoolectorExpr(#x21001a25)
+[2m2024-01-05T11:05:34.060788Z[0m [35mTRACE[0m [2msymex::run_elf[0m[2m:[0m Stopped counting cycles (cycle count: 16)
+[2m2024-01-05T11:05:34.060793Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000C2
+[2m2024-01-05T11:05:34.060797Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b0100011000100000
+[2m2024-01-05T11:05:34.060800Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: MOVReg { m: R4, d: R0, set_flags: false } }
+[2m2024-01-05T11:05:34.060805Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Move { destination: Register("R0"), source: Register("R4") }], max_cycle: Value(1) }
+[2m2024-01-05T11:05:34.060810Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("R0"), source: Register("R4") }
+[2m2024-01-05T11:05:34.060814Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R0 to BoolectorExpr((bvadd (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)) (bvand #x000000ff (concat #x0000 ((_ extract 31 16) BTOR_2@R0)))))
+[2m2024-01-05T11:05:34.060842Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m Reading instruction from address: 0x210000C4
+[2m2024-01-05T11:05:34.060846Z[0m [34mDEBUG[0m [2marmv6_m_instruction_parser[0m[2m:[0m instruction bits: 0b1011110111010000
+[2m2024-01-05T11:05:34.060849Z[0m [34mDEBUG[0m [2msymex::general_assembly::project[0m[2m:[0m instruction read: Instruction { width: Bit16, operation: POP { reg_list: [R4, R6, R7, PC] } }
+[2m2024-01-05T11:05:34.060856Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m executing instruction: Instruction { instruction_size: 16, operations: [Move { destination: Local("Address"), source: Register("SP") }, Move { destination: Register("R4"), source: AddressInLocal("Address", 32) }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Move { destination: Register("R6"), source: AddressInLocal("Address", 32) }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Move { destination: Register("R7"), source: AddressInLocal("Address", 32) }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Move { destination: Register("PC"), source: AddressInLocal("Address", 32) }, Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }, Add { destination: Register("SP"), operand1: Register("SP"), operand2: Immidiate(Word32(16)) }], max_cycle: Value(7) }
+[2m2024-01-05T11:05:34.060868Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Local("Address"), source: Register("SP") }
+[2m2024-01-05T11:05:34.060872Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("R4"), source: AddressInLocal("Address", 32) }
+[2m2024-01-05T11:05:34.060877Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Getting memmory addr: BoolectorExpr(#x2101fff0)
+[2m2024-01-05T11:05:34.060925Z[0m [35mTRACE[0m [1mread[0m[1m{[0m[3maddr[0m[2m=[0mBoolectorExpr(#x2101fff0) [3mbits[0m[2m=[0m32[1m}[0m[2m:[0m [2msymex::memory::array_memory[0m[2m:[0m Read value: BoolectorExpr((declare-fun BTOR_2@R4 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.060947Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R4 to BoolectorExpr((declare-fun BTOR_2@R4 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.060975Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }
+[2m2024-01-05T11:05:34.060983Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("R6"), source: AddressInLocal("Address", 32) }
+[2m2024-01-05T11:05:34.060987Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Getting memmory addr: BoolectorExpr(#x2101fff4)
+[2m2024-01-05T11:05:34.061043Z[0m [35mTRACE[0m [1mread[0m[1m{[0m[3maddr[0m[2m=[0mBoolectorExpr(#x2101fff4) [3mbits[0m[2m=[0m32[1m}[0m[2m:[0m [2msymex::memory::array_memory[0m[2m:[0m Read value: BoolectorExpr((declare-fun BTOR_2@R6 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.061065Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R6 to BoolectorExpr((declare-fun BTOR_2@R6 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.061083Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }
+[2m2024-01-05T11:05:34.061089Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("R7"), source: AddressInLocal("Address", 32) }
+[2m2024-01-05T11:05:34.061093Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Getting memmory addr: BoolectorExpr(#x2101fff8)
+[2m2024-01-05T11:05:34.061133Z[0m [35mTRACE[0m [1mread[0m[1m{[0m[3maddr[0m[2m=[0mBoolectorExpr(#x2101fff8) [3mbits[0m[2m=[0m32[1m}[0m[2m:[0m [2msymex::memory::array_memory[0m[2m:[0m Read value: BoolectorExpr((declare-fun BTOR_2@R7 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.061153Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register R7 to BoolectorExpr((declare-fun BTOR_2@R7 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.061172Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }
+[2m2024-01-05T11:05:34.061177Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Move { destination: Register("PC"), source: AddressInLocal("Address", 32) }
+[2m2024-01-05T11:05:34.061181Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Getting memmory addr: BoolectorExpr(#x2101fffc)
+[2m2024-01-05T11:05:34.061220Z[0m [35mTRACE[0m [1mread[0m[1m{[0m[3maddr[0m[2m=[0mBoolectorExpr(#x2101fffc) [3mbits[0m[2m=[0m32[1m}[0m[2m:[0m [2msymex::memory::array_memory[0m[2m:[0m Read value: BoolectorExpr(#xfffffffe)
+[2m2024-01-05T11:05:34.061245Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register PC to BoolectorExpr(#xfffffffe)
+[2m2024-01-05T11:05:34.061266Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Local("Address"), operand1: Local("Address"), operand2: Immidiate(Word32(4)) }
+[2m2024-01-05T11:05:34.061272Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Executing operation: Add { destination: Register("SP"), operand1: Register("SP"), operand2: Immidiate(Word32(16)) }
+[2m2024-01-05T11:05:34.061277Z[0m [35mTRACE[0m [2msymex::general_assembly::executor[0m[2m:[0m Setting register SP to BoolectorExpr(#x21020000)
+[2m2024-01-05T11:05:34.061297Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m Symbolic execution ended succesfully
+[2m2024-01-05T11:05:34.061301Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m R0: BoolectorExpr((bvadd (bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)) (bvand #x000000ff (concat #x0000 ((_ extract 31 16) BTOR_2@R0)))))
+[2m2024-01-05T11:05:34.061328Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m SP: BoolectorExpr(#x21020000)
+[2m2024-01-05T11:05:34.061347Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m LR: BoolectorExpr(#x210000c3)
+[2m2024-01-05T11:05:34.061364Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m R7: BoolectorExpr((declare-fun BTOR_2@R7 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.061382Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m R3: BoolectorExpr((concat ((_ extract 15 0) BTOR_2@R0) #x0000))
+[2m2024-01-05T11:05:34.061403Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m R4: BoolectorExpr((declare-fun BTOR_2@R4 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.061421Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m PC: BoolectorExpr(#xfffffffe)
+[2m2024-01-05T11:05:34.061438Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m R1: BoolectorExpr((bvand BTOR_2@R0 #x00ff0000))
+[2m2024-01-05T11:05:34.061457Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m R6: BoolectorExpr((declare-fun BTOR_2@R6 () (_ BitVec 32))
+)
+[2m2024-01-05T11:05:34.061475Z[0m [34mDEBUG[0m [2msymex::general_assembly::executor[0m[2m:[0m R2: BoolectorExpr((bvadd (bvand BTOR_2@R0 #x0000ff00) (concat ((_ extract 15 0) BTOR_2@R0) #x0000)))
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ PATH 1 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Success: returned void
+
+Symbolic:
+    R4: 0x00000000 (32-bits)
+    R6: 0x00000000 (32-bits)
+    R7: 0x00000000 (32-bits)
+    R0: 0x00000000 (32-bits)
+
+End state:
+    R0: 0x00000000 (32-bits)
+    SP: 0x21020000 (32-bits)
+    LR: 0x210000c3 (32-bits)
+    R7: 0x00000000 (32-bits)
+    R3: 0x00000000 (32-bits)
+    R4: 0x00000000 (32-bits)
+    PC: 0xfffffffe (32-bits)
+    R1: 0x00000000 (32-bits)
+    R6: 0x00000000 (32-bits)
+    R2: 0x00000000 (32-bits)
+Instructions executed: 22
+Max number of cycles: 16
+
+time: 10.175024ms
