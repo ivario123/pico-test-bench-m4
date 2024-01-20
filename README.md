@@ -13,4 +13,5 @@ Is used to compare cycle counts between the symex tool and the same code running
 - CRC calculation.
 
 ## Tests to add
-- match statement on a enum
+- match statement on a enum this is almost done but only work for debug right now
+- Hardware read

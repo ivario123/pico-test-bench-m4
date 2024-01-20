@@ -62,7 +62,7 @@ fn main() -> ! {
 
 #[inline(never)]
 #[no_mangle]
-fn measure(v: u8) -> u16{
+fn measure(v: u8) -> u16 {
     start_cyclecount();
     unsafe {
         asm!("bkpt 1");

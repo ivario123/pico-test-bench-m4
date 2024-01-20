@@ -21,7 +21,7 @@ use bsp::hal::{
     sio::Sio,
     watchdog::Watchdog,
 };
-use symex_lib::{end_cyclecount, start_cyclecount};
+use symex_lib::{end_cyclecount, start_cyclecount, symbolic};
 
 #[entry]
 fn main() -> ! {
@@ -55,14 +55,18 @@ fn main() -> ! {
     //small_timing_test();
     //smaller_timing_test();
     //measure_symex();
-    let r = measure(CrcType::CrcA, [42; 16]);
+    let r = measure();
     info!("r: {}", r);
     loop {}
 }
 
 #[inline(never)]
 #[no_mangle]
-fn measure(crc_type: CrcType, data: [u8; 16]) -> [u8; 2] {
+fn measure() -> [u8; 2] {
+    let mut crc_type = CrcType::CrcA;
+    let mut data = [42; 16];
+    symbolic(&mut crc_type);
+    symbolic(&mut data);
     start_cyclecount();
     unsafe {
         asm!("bkpt 1");
