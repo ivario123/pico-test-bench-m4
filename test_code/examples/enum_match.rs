@@ -21,7 +21,7 @@ use bsp::hal::{
     sio::Sio,
     watchdog::Watchdog,
 };
-use symex_lib::{end_cyclecount, start_cyclecount, symbolic, valid, assume, Valid};
+use symex_lib::{end_cyclecount, any, start_cyclecount, symbolic, assume, Any};
 use valid_derive::Validate;
 
 #[entry]
@@ -66,26 +66,49 @@ fn main() -> ! {
     info!("r: {}", r);
     let r = measure();
     info!("r: {}", r);
-    let r = symex_test(4);
-    info!("r: {}", r);
     loop {}
 }
 
-#[derive(Validate, PartialEq, Eq)]
+enum Inner {
+    One,
+    Two(u16, u16),
+}
+
+impl Any for Inner {
+    fn any() -> Self {
+        match u8::any() {
+            0 => Inner::One,
+            _ => Inner::Two(u16::any(), u16::any()),
+        }
+    }
+}
+
 enum TestEnum {
     One,
     Two,
-    Three,
-    Four,
-    Five,
+    Three(u16),
+    Four(Inner),
+    Five(u16),
+}
+
+impl Any for TestEnum {
+    fn any() -> Self {
+        let mut n = 1u8;
+        symbolic(&mut n);
+        match n {
+            0 => TestEnum::One,
+            1 => TestEnum::Two,
+            2 => TestEnum::Three(u16::any()),
+            3 => TestEnum::Four(Inner::any()),
+            _ => TestEnum::Five(u16::any()),
+        }
+    }
 }
 
 #[inline(never)]
 #[no_mangle]
 fn measure() -> u16 {
-    let mut input: TestEnum = TestEnum::Two;
-    symbolic(&mut input);
-    if_test3(&input);
+    let input: TestEnum = any();
     start_cyclecount();
     unsafe {
         asm!("bkpt 1");
@@ -98,91 +121,26 @@ fn measure() -> u16 {
     r
 }
 
-#[inline(never)]
-#[no_mangle]
-fn symex_test(n: u32) -> u16 {
-    let mut input: TestEnum = TestEnum::Five;
-    symbolic(&mut input);
-    //valid(&input);
-    //input.is_valid();
-    if_test3(&input);
-    handle_test_enum(input)
-}
 
 #[inline(never)]
 #[no_mangle]
 fn handle_test_enum(n: TestEnum) -> u16 {
     match n {
         TestEnum::One => 1,
-        TestEnum::Two => simple_if(2) as u16,
-        TestEnum::Three => 9,
-        TestEnum::Four => 5,
-        TestEnum::Five => simple_if(5 as u8) as u16,
+        TestEnum::Two => simple_if(2),
+        TestEnum::Three(v) => v,
+        TestEnum::Four(i) => {match i {
+            Inner::One => 1,
+            Inner::Two(a, b) => a + b,
+        }},
+        TestEnum::Five(v) => simple_if(v),
     }
 }
 
-#[inline(never)]
-#[no_mangle]
-fn if_test3(n: &TestEnum) -> bool {
-    let mut ret = true;
-    if let TestEnum::One = n {
-        symex_lib::black_box(&mut ret)
-    } else if let TestEnum::Two = n {
-        symex_lib::black_box(&mut ret)
-    } else if let TestEnum::Three = n {
-        symex_lib::black_box(&mut ret)
-    } else if let TestEnum::Four = n {
-        symex_lib::black_box(&mut ret)
-    } else if let TestEnum::Five = n {
-        symex_lib::black_box(&mut ret)
-    } else {
-        symex_lib::black_box(&mut ret);
-        symex_lib::suppress_path();
-        ret = false
-    }
-    ret
-}
 
 #[inline(never)]
 #[no_mangle]
-fn if_test2(n: &TestEnum) -> u8 {
-    if let TestEnum::One = n {
-        1
-    } else if let TestEnum::Two = n {
-        2
-    } else if let TestEnum::Three = n {
-        3
-    } else if let TestEnum::Four = n {
-        4
-    } else if let TestEnum::Five = n {
-        simple_if(5)
-    } else {
-        symex_lib::suppress_path();
-        0
-    }
-}
-
-#[inline(never)]
-#[no_mangle]
-fn if_test(n: TestEnum) -> u16 {
-    if n == TestEnum::One {
-        13
-    } else if n == TestEnum::Two {
-        12
-    } else if n == TestEnum::Three {
-        22
-    } else if n == TestEnum::Four {
-        simple_if(42) as u16 
-    } else if n == TestEnum::Five {
-        simple_if(1) as u16
-    } else {
-        core::panic!("hello")
-    }
-}
-
-#[inline(never)]
-#[no_mangle]
-fn simple_if(n: u8) -> u8 {
+fn simple_if(n: u16) -> u16 {
     if n == 3 {
         1
     } else if n == 6 {
