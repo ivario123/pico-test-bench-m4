@@ -58,7 +58,7 @@ fn main() -> ! {
 
 #[inline(never)]
 #[no_mangle]
-fn measure(PADS_BANK0: pac::PADS_BANK0, PWM: pac::PWM, IO_BANK0: pac::IO_BANK0, SIO: pac::SIO, mut RESETS: pac::RESETS, core: cortex_m::Peripherals) -> bool {
+fn measure(PADS_BANK0: pac::PADS_BANK0, PWM: pac::PWM, IO_BANK0: pac::IO_BANK0, SIO: pac::SIO, mut RESETS: pac::RESETS, core: cortex_m::Peripherals) -> u16 {
 
     let sio = Sio::new(SIO);
 
@@ -75,7 +75,7 @@ fn measure(PADS_BANK0: pac::PADS_BANK0, PWM: pac::PWM, IO_BANK0: pac::IO_BANK0, 
 
     // Configure PWM0
     let pwm = &mut pwm_slices.pwm0;
-    pwm.set_ph_correct();
+    //pwm.set_ph_correct();
     pwm.set_div_int(20u8); // 50 hz
     pwm.enable();
 
@@ -89,40 +89,39 @@ fn measure(PADS_BANK0: pac::PADS_BANK0, PWM: pac::PWM, IO_BANK0: pac::IO_BANK0, 
     systic.set_reload(systic_reload_time);
     systic.enable_counter();
 
-    let mut old_data = Frame { data: [0; 24], index: 24, last: 0 };
+    let mut old_data = Frame { data: [0; 24], index: 24, last: 4 };
     symbolic(&mut old_data.data);
     symbolic(&mut old_data.index);
     symbolic(&mut old_data.last);
     assume(old_data.index <= 24);
-    let mut new_data = 0;
+    let mut new_data = 4;
     symbolic(&mut new_data);
     start_cyclecount();
     unsafe {
         asm!("bkpt 1");
     }
-    handle_inputs(channel, &mut old_data, new_data);
+    let r = handle_inputs(&mut old_data, new_data);
     unsafe {
         asm!("bkpt 1");
     }
     end_cyclecount();
-    true
+    r
 }
 
 #[inline(never)]
 #[no_mangle]
 fn handle_inputs(
-    pwm_channel: &mut PwmChannel,
     old_data: &mut Frame,
     new_data: u8,
-) {
+) -> u16 {
     let channels = match old_data.push_and_try_parse(new_data) {
         Ok(c) => c,
-        Err(_) => return,
+        Err(_) => return 0,
     };
 
     let pwm_value = calculate_pwm_value(channels[0]);
 
-    pwm_channel.set_duty(pwm_value);
+    pwm_value
 }
 
 #[inline(never)]

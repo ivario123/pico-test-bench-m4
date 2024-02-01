@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 object = "0.32.2"
 probe-rs = "0.22"
-symex = { git = "https://github.com/s7rul/symex", branch = "armv6-m" }
+symex = { git = "https://github.com/s7rul/symex", tag = "Thesis_version" }
