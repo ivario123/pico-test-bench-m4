@@ -1,13 +1,18 @@
 MEMORY {
-    BOOT2 : ORIGIN = 0x10000000, LENGTH = 0x100
-    FLASH : ORIGIN = 0x10000100, LENGTH = 2048K - 0x100
+    /* NOTE K = KiBi = 1024 bytes */
+    FLASH : ORIGIN = 0x00000000, LENGTH = 1024K
+    RAM   : ORIGIN = 0x20000000, LENGTH = 2048K
+
+    /*BOOT2 : ORIGIN = 0x10000000, LENGTH = 0x100
+    FLASH : ORIGIN = 0x10000100, LENGTH = 2048K - 0x100*/
     /* RAM   : ORIGIN = 0x20000000, LENGTH = 256K */
 
     /* used as core0-data segment, SRAM1 */
-    RAM   : ORIGIN = 0x21010000, LENGTH = 64K
+    /*RAM   : ORIGIN = 0x21010000, LENGTH = 64K*/
 
-    /* used instead of flash */
-    DATA  : ORIGIN = 0x21000000, LENGTH = 64K
+    /* used instead of flash */ /* TODO! Move this in to RAM*/
+    DATA  : ORIGIN = 0x20010000, LENGTH = 64K
+    DATA2 : ORIGIN = 0x20030000, LENGTH = 64K
 
     /*
      * RAM consists of 4 banks, SRAM0-SRAM3, with a striped mapping.
@@ -21,7 +26,7 @@ MEMORY {
      * of access times.
      * Example: Separate stacks for core0 and core1.
      */
-    SRAM4 : ORIGIN = 0x20040000, LENGTH = 4k
+    /*SRAM4 : ORIGIN = 0x20040000, LENGTH = 4k*/
     /* SRAM5 : ORIGIN = 0x20041000, LENGTH = 4k */
 
     /* SRAM banks 0-3 can also be accessed directly. However, those ranges
@@ -34,12 +39,11 @@ MEMORY {
 
 /* _stack_start = ORIGIN(SRAM4) + LENGTH(SRAM4); */
 
-EXTERN(BOOT2_FIRMWARE)
+/*EXTERN(BOOT2_FIRMWARE)
 
 SECTIONS {
-    /* ### Boot loader */
     .boot2 ORIGIN(BOOT2) :
     {
         KEEP(*(.boot2));
     } > BOOT2
-} INSERT BEFORE .text;
+} INSERT BEFORE .text;*/

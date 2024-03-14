@@ -1,54 +1,34 @@
 //! Blinks the LED on a Pico board
-
 #![no_std]
 #![no_main]
 
-use core::arch::asm;
-
-use bsp::entry;
-use cortex_m::peripheral::{syst::SystClkSource, SYST};
+use cortex_m_rt::entry;
 use defmt::*;
 use defmt_rtt as _;
-use embedded_hal::digital::v2::OutputPin;
+use hal::pac::SYST;
 use panic_probe as _;
+use symex_lib::any;
+use symex_lib::end_cyclecount;
+use symex_lib::start_cyclecount;
+use symex_lib::symbolic;
+use symex_lib::Any;
 
-// Provide an alias for our BSP so we can switch targets quickly.
-use rp_pico as bsp;
-
-use bsp::hal::{
-    clocks::{init_clocks_and_plls, Clock},
-    pac,
-    sio::Sio,
-    watchdog::Watchdog,
-};
-use symex_lib::{end_cyclecount, any, start_cyclecount, symbolic, assume, Any};
-use valid_derive::Validate;
+use core::arch::asm;
+use core::fmt::Write;
+use hal::{gpio, uarte, uarte::Uarte};
+use nrf52840_hal as hal;
+use nrf52840_hal::pac;
+use nrf52840_hal::prelude::*;
 
 #[entry]
 fn main() -> ! {
     info!("Ex1 start");
     let mut pac = pac::Peripherals::take().unwrap();
     let core = pac::CorePeripherals::take().unwrap();
-    let mut watchdog = Watchdog::new(pac.WATCHDOG);
-    let sio = Sio::new(pac.SIO);
-
-    // External high-speed crystal on the pico board is 12Mhz
-    let external_xtal_freq_hz = 12_000_000u32;
-    let clocks = init_clocks_and_plls(
-        external_xtal_freq_hz,
-        pac.XOSC,
-        pac.CLOCKS,
-        pac.PLL_SYS,
-        pac.PLL_USB,
-        &mut pac.RESETS,
-        &mut watchdog,
-    )
-    .ok()
-    .unwrap();
-
+    let _clocks = hal::clocks::Clocks::new(pac.CLOCK).enable_ext_hfosc();
     let systic_reload_time: u32 = 0x00ffffff;
     let mut systic = core.SYST;
-    systic.set_clock_source(SystClkSource::Core);
+    systic.set_clock_source(cortex_m::peripheral::syst::SystClkSource::External);
     systic.set_reload(systic_reload_time);
     systic.enable_counter();
 
@@ -107,6 +87,7 @@ impl Any for TestEnum {
 
 #[inline(never)]
 #[no_mangle]
+#[link_section = "DATA"]
 fn measure() -> u16 {
     let input: TestEnum = any();
     start_cyclecount();
@@ -121,7 +102,6 @@ fn measure() -> u16 {
     r
 }
 
-
 #[inline(never)]
 #[no_mangle]
 fn handle_test_enum(n: TestEnum) -> u16 {
@@ -129,14 +109,13 @@ fn handle_test_enum(n: TestEnum) -> u16 {
         TestEnum::One => 1,
         TestEnum::Two => simple_if(2),
         TestEnum::Three(v) => v,
-        TestEnum::Four(i) => {match i {
+        TestEnum::Four(i) => match i {
             Inner::One => 1,
             Inner::Two(a, b) => a + b,
-        }},
+        },
         TestEnum::Five(v) => simple_if(v),
     }
 }
-
 
 #[inline(never)]
 #[no_mangle]

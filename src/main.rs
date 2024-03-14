@@ -1,4 +1,4 @@
-use std::{collections::HashMap, fs, time::Duration, fmt::Display};
+use std::{collections::HashMap, fmt::Display, fs, time::Duration};
 
 use object::{Object, ObjectSymbol};
 use probe_rs::{flashing, Core, MemoryInterface, Permissions, Session};
@@ -17,29 +17,33 @@ impl Display for Measurement {
 }
 
 fn main() {
-    println!("Utility to measure HW cycles for the rp2040");
+    println!("Utility to measure HW cycles for the nRF52840_xxAA");
 
-    let mut session = Session::auto_attach("rp2040", Permissions::default()).unwrap();
+    // let mut session = Session::auto_attach("nRF52840_xxAA", Permissions::default()).unwrap();
 
-    println!("attached to rp2040 {:?}", session.architecture());
+    // println!("attached to nRF52840_xxAA {:?}", session.architecture());
 
     println!("name\t\thw\tsymex");
     for to_test in fs::read_dir("test_binarys").unwrap() {
-        let path = to_test.unwrap().path();
-        let path_str = path.to_string_lossy().to_string();
-        let name = path_str.split('/').last().unwrap();
-        let hw_measurement = measure_hw(&path_str, &mut session);
+        // if to_test
+        //     .as_ref()
+        //     .is_ok_and(|el| el.file_name().to_str().clone().unwrap() == "nop_loop")
+        // {
+            let path = to_test.unwrap().path();
+            let path_str = path.to_string_lossy().to_string();
+            let name = path_str.split('/').last().unwrap();
+            // let hw_measurement = measure_hw(&path_str, &mut session);
 
-        let symex_measurement = measure_symex(&path_str);
+            let symex_measurement = measure_symex(&path_str);
 
-        let measurement = Measurement {
-            name: name.to_owned(),
-            hw: hw_measurement,
-            symex: symex_measurement,
-        };
+            // let measurement = Measurement {
+            //     name: name.to_owned(),
+            //     hw: hw_measurement,
+            //     symex: symex_measurement,
+            // };
 
-        println!("{}", measurement);
-
+            println!("Name : {name} \n\thw \t: \n\tsymex \t: {symex_measurement} ");
+        // }
     }
 }
 
