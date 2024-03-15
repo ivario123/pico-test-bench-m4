@@ -26,7 +26,7 @@ fn main() {
     println!("name\t\thw\tsymex");
     for to_test in fs::read_dir("test_binarys").unwrap() {
         // if to_test
-        //     .as_ref()
+            // .as_ref()
         //     .is_ok_and(|el| el.file_name().to_str().clone().unwrap() == "nop_loop")
         // {
             let path = to_test.unwrap().path();
@@ -78,7 +78,7 @@ fn measure_hw(path: &str, session: &mut Session) -> u64 {
     core.reset().unwrap();
 
     // Wait until first measuring point
-    core.wait_for_core_halted(Duration::from_millis(500))
+    core.wait_for_core_halted(Duration::from_millis(5000))
         .unwrap();
     let start = core.read_word_32(0xe000e018).unwrap() & 0x00FFFFFF;
 

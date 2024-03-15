@@ -3,50 +3,32 @@
 #![no_std]
 #![no_main]
 
-use core::arch::asm;
-
-use bsp::{entry, hal::pwm::{Channel, ChannelId, Pwm0}, pac::{IO_BANK0, PADS_BANK0, PWM}};
-use cortex_m::peripheral::{syst::SystClkSource, SYST};
+use cortex_m_rt::entry;
 use defmt::*;
 use defmt_rtt as _;
-use embedded_hal::{digital::v2::OutputPin, PwmPin};
+use hal::pac::SYST;
 use panic_probe as _;
+use symex_lib::end_cyclecount;
+use symex_lib::start_cyclecount;
 
-// Provide an alias for our BSP so we can switch targets quickly.
-use rp_pico as bsp;
-
-use bsp::hal::{
-    clocks::{init_clocks_and_plls, Clock},
-    pac,
-    sio::Sio,
-    watchdog::Watchdog,
-    pwm,
-};
-use symex_lib::{assume, end_cyclecount, start_cyclecount, symbolic};
-
-type PwmChannel = Channel<pwm::Slice<Pwm0, pwm::FreeRunning>, pwm::B>;
+use core::arch::asm;
+use core::fmt::Write;
+use hal::{gpio, uarte, uarte::Uarte};
+use nrf52840_hal as hal;
+use nrf52840_hal::prelude::*;
+use nrf52840_hal::pac;
 
 #[entry]
 fn main() -> ! {
     info!("Ex1 start");
-    let mut pac: pac::Peripherals = pac::Peripherals::take().unwrap();
-    let core: cortex_m::Peripherals = pac::CorePeripherals::take().unwrap();
-    let mut watchdog = Watchdog::new(pac.WATCHDOG);
-
-    // External high-speed crystal on the pico board is 12Mhz
-    let external_xtal_freq_hz = 12_000_000u32;
-    let clocks = init_clocks_and_plls(
-        external_xtal_freq_hz,
-        pac.XOSC,
-        pac.CLOCKS,
-        pac.PLL_SYS,
-        pac.PLL_USB,
-        &mut pac.RESETS,
-        &mut watchdog,
-    )
-    .ok()
-    .unwrap();
-
+    let mut pac = pac::Peripherals::take().unwrap();
+    let core = pac::CorePeripherals::take().unwrap();
+    let _clocks = hal::clocks::Clocks::new(pac.CLOCK).enable_ext_hfosc();
+    let systic_reload_time: u32 = 0x00ffffff;
+    let mut systic = core.SYST;
+    systic.set_clock_source(cortex_m::peripheral::syst::SystClkSource::External);
+    systic.set_reload(systic_reload_time);
+    systic.enable_counter();
     //measure_hw();
     //small_timing_test();
     //smaller_timing_test();
