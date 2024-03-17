@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 object = "0.32.2"
 probe-rs = "0.22"
-symex = { path = "../symex/symex" }
+# symex = { path = "../symex/symex" }
