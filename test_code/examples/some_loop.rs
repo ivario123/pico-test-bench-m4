@@ -11,6 +11,7 @@ use panic_probe as _;
 use symex_lib::end_cyclecount;
 use symex_lib::start_cyclecount;
 use symex_lib::symbolic;
+use symex_lib::assume;
 
 use core::arch::asm;
 use core::fmt::Write;
@@ -24,10 +25,10 @@ fn main() -> ! {
     info!("Ex1 start");
     let mut pac = pac::Peripherals::take().unwrap();
     let core = pac::CorePeripherals::take().unwrap();
-    let _clocks = hal::clocks::Clocks::new(pac.CLOCK).enable_ext_hfosc();
+    let _clocks = hal::clocks::Clocks::new(pac.CLOCK);
     let systic_reload_time: u32 = 0x00ffffff;
     let mut systic = core.SYST;
-    systic.set_clock_source(cortex_m::peripheral::syst::SystClkSource::External);
+    systic.set_clock_source(cortex_m::peripheral::syst::SystClkSource::Core);
     systic.set_reload(systic_reload_time);
     systic.enable_counter();
 
@@ -35,6 +36,9 @@ fn main() -> ! {
     //small_timing_test();
     //smaller_timing_test();
     //measure_symex();
+    // unsafe {
+    //     asm!("bkpt 1");
+    // }
     let r = measure(0xff);
     info!("r: {}", r);
     loop {}
@@ -43,6 +47,7 @@ fn main() -> ! {
 #[inline(never)]
 #[no_mangle]
 fn measure(v: u8) -> u16 {
+    // assume(v == 0xff);
     start_cyclecount();
     unsafe {
         asm!("bkpt 1");

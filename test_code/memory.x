@@ -11,8 +11,9 @@ MEMORY {
     /*RAM   : ORIGIN = 0x21010000, LENGTH = 64K*/
 
     /* used instead of flash */ /* TODO! Move this in to RAM*/
-    DATA  : ORIGIN = 0x20010000, LENGTH = 64K
-    DATA2 : ORIGIN = 0x20030000, LENGTH = 64K
+    DATA  	: ORIGIN = 0x20002000, LENGTH = 64K
+    DATA2  	: ORIGIN = 0x20030000, LENGTH = 64K
+    VECTORTABLE : ORIGIN = 0x20001000, LENGTH = 64K
 
     /*
      * RAM consists of 4 banks, SRAM0-SRAM3, with a striped mapping.

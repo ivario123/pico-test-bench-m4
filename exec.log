@@ -1,0 +1,18 @@
+Name : some_loop 
+	hw 	: 38 
+	symex 	: 7681
+Name : nop_loop 
+	hw 	: 38 
+	symex 	: 60017
+Name : calc_crc 
+	hw 	: 38 
+	symex 	: 209
+Name : enum_match 
+	hw 	: 38 
+	symex 	: 48
+Name : get_sign 
+	hw 	: 38 
+	symex 	: 20
+Name : test_trait 
+	hw 	: 38 
+	symex 	: 14

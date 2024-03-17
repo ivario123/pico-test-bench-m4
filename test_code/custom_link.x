@@ -64,7 +64,7 @@ SECTIONS
 
   /* ## Sections in RAM */
   /* ### Vector table */
-  .vector_table ORIGIN(DATA2) :
+  .vector_table ORIGIN(VECTORTABLE) :
   {
     __vector_table = .;
 

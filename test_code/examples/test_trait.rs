@@ -25,7 +25,6 @@ fn main() -> ! {
     systic.set_clock_source(cortex_m::peripheral::syst::SystClkSource::External);
     systic.set_reload(systic_reload_time);
     systic.enable_counter();
-
     let r = measure([1, 2, 3]);
     info!("r: {}", r);
     let r = reverser([1, 2]);
@@ -36,15 +35,15 @@ fn main() -> ! {
 #[inline(never)]
 #[no_mangle]
 fn measure(data1: [u8; 3]) -> [u8; 3] {
+    unsafe {
+        asm!("bkpt 1");
+    }
     start_cyclecount();
-    unsafe {
-        asm!("bkpt 1");
-    }
     let data1 = reverser(data1);
+    end_cyclecount();
     unsafe {
         asm!("bkpt 1");
     }
-    end_cyclecount();
     data1
 }
 

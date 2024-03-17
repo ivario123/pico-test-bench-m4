@@ -200,6 +200,7 @@ dependencies = [
 [[package]]
 name = "builder_derive"
 version = "0.1.0"
+source = "git+https://github.com/ivario123/builder_derive#d9e36dd1cc115e9c24a37c998a0037be42fa5cd9"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -434,15 +435,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "dissarmv7"
-version = "0.1.0"
+name = "disarmv7"
+version = "0.0.1"
 dependencies = [
  "arch",
  "builder_derive",
  "const-if",
  "general_assembly",
+ "operation",
  "paste",
- "thumb",
  "transpiler",
 ]
 
@@ -761,7 +762,7 @@ checksum = "131bddab59a64213cc1e9f0c5be010d7eb485951358ab7e52017888dec482028"
 
 [[package]]
 name = "language"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "general_assembly",
  "proc-macro2",
@@ -958,6 +959,14 @@ name = "once_cell"
 version = "1.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
+
+[[package]]
+name = "operation"
+version = "0.1.0"
+dependencies = [
+ "arch",
+ "builder_derive",
+]
 
 [[package]]
 name = "overload"
@@ -1516,7 +1525,7 @@ dependencies = [
  "armv6-m-instruction-parser",
  "boolector",
  "colored",
- "dissarmv7",
+ "disarmv7",
  "general_assembly",
  "gimli",
  "indenter",
@@ -1609,14 +1618,6 @@ checksum = "3fdd6f064ccff2d6567adcb3873ca630700f00b5ad3f060c25b5dcfd9a4ce152"
 dependencies = [
  "cfg-if",
  "once_cell",
-]
-
-[[package]]
-name = "thumb"
-version = "0.1.0"
-dependencies = [
- "arch",
- "builder_derive",
 ]
 
 [[package]]
@@ -1724,7 +1725,7 @@ dependencies = [
 
 [[package]]
 name = "transpiler"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "general_assembly",
  "language",

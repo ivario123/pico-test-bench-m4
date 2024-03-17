@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+for file in $(find test_code/target/thumbv7m-none-eabi/debug/examples/ -type f | awk -e '/.[a-z]*_[a-z]*$/'); do
+cp $file ./test_binarys
+done
+
+
