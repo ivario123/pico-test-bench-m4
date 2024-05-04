@@ -1,25 +1,19 @@
-//! Tests enum matching, this method produces 8 paths which is correct as the compiler flattens
-//! both the paths that return `1` in to one path. Chaning one of the return values proves that
-//! this assumption is correct.
+//! Tests enum matching, this method produces 8 paths which is correct as the
+//! compiler flattens both the paths that return `1` in to one path. Chaning one
+//! of the return values proves that this assumption is correct.
 
 #![no_std]
 #![no_main]
 
+use core::arch::asm;
+
 use cortex_m_rt::entry;
 use defmt::*;
 use defmt_rtt as _;
-use panic_probe as _;
-use symex_lib::any;
-use symex_lib::assume;
-use symex_lib::end_cyclecount;
-use symex_lib::start_cyclecount;
-use symex_lib::symbolic;
-use symex_lib::Any;
-use symex_lib::Valid;
-
-use core::arch::asm;
 use nrf52840_hal as hal;
 use nrf52840_hal::pac;
+use panic_probe as _;
+use symex_lib::{any, assume, end_cyclecount, start_cyclecount, symbolic, Any, Valid};
 
 #[entry]
 fn main() -> ! {

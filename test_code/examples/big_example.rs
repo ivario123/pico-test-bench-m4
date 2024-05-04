@@ -3,18 +3,15 @@
 #![no_std]
 #![no_main]
 
+use core::arch::asm;
+
 use cortex_m_rt::entry;
 use defmt::*;
 use defmt_rtt as _;
-use panic_probe as _;
-use symex_lib::assume;
-use symex_lib::end_cyclecount;
-use symex_lib::start_cyclecount;
-use symex_lib::symbolic;
-
-use core::arch::asm;
 use nrf52840_hal as hal;
 use nrf52840_hal::pac;
+use panic_probe as _;
+use symex_lib::{assume, end_cyclecount, start_cyclecount, symbolic};
 
 #[entry]
 fn main() -> ! {
@@ -98,9 +95,10 @@ impl Frame {
         }
     }
 
-    /// The function that takes in the most recent message in data and tries to parse the frame.
-    /// If the frame is complete and can be parsed it returns Ok with the channels otherwise
-    /// it returns Err which indicates that no complete frame was found at this point.
+    /// The function that takes in the most recent message in data and tries to
+    /// parse the frame. If the frame is complete and can be parsed it
+    /// returns Ok with the channels otherwise it returns Err which
+    /// indicates that no complete frame was found at this point.
     #[inline(never)]
     pub fn push_and_try_parse(&mut self, data: u8) -> Result<Channels, ()> {
         const SBUS_HEADER: u8 = 0x0F;
@@ -128,13 +126,15 @@ impl Frame {
             } else if self.index == SBUS_SIZE {
                 // End reached check if data is footer.
                 if (data == SBUS_FOOTER) || ((data & SBUS_2MASK) == SBUS_2FOOTER) {
-                    // Is footer parse the frame and return the channels and reset to search for next frame.
+                    // Is footer parse the frame and return the channels and reset to search for
+                    // next frame.
                     self.index = 0;
                     return Ok(self.to_channels());
                 } else {
                     // Footer not found so something went wrong reset to try again with next frame.
                     self.index = 0;
-                    return Err(()); // added random error for now change to proper error later
+                    return Err(()); // added random error for now change to
+                                    // proper error later
                 }
             }
         }

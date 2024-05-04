@@ -4,16 +4,15 @@
 #![no_std]
 #![no_main]
 
+use core::arch::asm;
+
 use cortex_m_rt::entry;
 use defmt::*;
 use defmt_rtt as _;
-use panic_probe as _;
-use symex_lib::end_cyclecount;
-use symex_lib::start_cyclecount;
-
-use core::arch::asm;
 use nrf52840_hal as hal;
 use nrf52840_hal::pac;
+use panic_probe as _;
+use symex_lib::{end_cyclecount, start_cyclecount};
 
 #[entry]
 fn main() -> ! {
