@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 object = "0.32.2"
-probe-rs = "0.22"
-symex = { path = "../symex/symex" }
+probe-rs = {path = "../probe-rs/probe-rs"}
+symex = { path = "../../symex/symex" }

@@ -1,3 +1,4 @@
+
 /* # Developer notes
 
 - Symbols that start with a double underscore (__) are considered "private"
@@ -62,9 +63,9 @@ SECTIONS
 {
   PROVIDE(_stack_start = ORIGIN(RAM) + LENGTH(RAM));
 
-  /* ## Sections in RAM */
+  /* ## Sections in FLASH */
   /* ### Vector table */
-  .vector_table ORIGIN(VECTORTABLE) :
+  .vector_table ORIGIN(FLASH) :
   {
     __vector_table = .;
 
@@ -85,12 +86,12 @@ SECTIONS
 
     /* Device specific interrupts */
     KEEP(*(.vector_table.interrupts)); /* this is the `__INTERRUPTS` symbol */
-  } > DATA2
+  } > FLASH
 
   PROVIDE(_stext = ADDR(.vector_table) + SIZEOF(.vector_table));
 
   /* ### .text */
-  .text ORIGIN(DATA) :
+  .text ORIGIN(RAM2):
   {
     __stext = .;
     *(.Reset);
@@ -104,7 +105,7 @@ SECTIONS
 
     . = ALIGN(4); /* Pad .text to the alignment to workaround overlapping load section bug in old lld */
     __etext = .;
-  } > DATA
+  } > RAM2 
 
   /* ### .rodata */
   .rodata : ALIGN(4)
@@ -118,7 +119,7 @@ SECTIONS
        section will have the correct alignment. */
     . = ALIGN(4);
     __erodata = .;
-  } > DATA
+  } > FLASH
 
   /* ## Sections in RAM */
   /* ### .data */
@@ -128,7 +129,7 @@ SECTIONS
     __sdata = .;
     *(.data .data.*);
     . = ALIGN(4); /* 4-byte align the end (VMA) of this section */
-  } > DATA
+  } > RAM2 AT>FLASH
   /* Allow sections from user `memory.x` injected using `INSERT AFTER .data` to
    * use the .data loading mechanism by pushing __edata. Note: do not change
    * output region or load region in those user sections! */
@@ -141,14 +142,14 @@ SECTIONS
   /* ### .gnu.sgstubs
      This section contains the TrustZone-M veneers put there by the Arm GNU linker. */
   /* Security Attribution Unit blocks must be 32 bytes aligned. */
-  /* Note that this pads the RAM usage to 32 byte alignment. */
+  /* Note that this pads the FLASH usage to 32 byte alignment. */
   .gnu.sgstubs : ALIGN(32)
   {
     . = ALIGN(32);
     __veneer_base = .;
     *(.gnu.sgstubs*)
     . = ALIGN(32);
-  } > RAM
+  } > FLASH
   /* Place `__veneer_limit` outside the `.gnu.sgstubs` section because veneers are
    * always inserted last in the section, which would otherwise be _after_ the `__veneer_limit` symbol.
    */
@@ -173,6 +174,7 @@ SECTIONS
   /* ### .uninit */
   .uninit (NOLOAD) : ALIGN(4)
   {
+    .buffer = ALIGN(4);
     . = ALIGN(4);
     __suninit = .;
     *(.uninit .uninit.*);
@@ -203,8 +205,8 @@ SECTIONS
 
 /* Do not exceed this mark in the error messages below                                    | */
 /* # Alignment checks */
-ASSERT(ORIGIN(RAM) % 4 == 0, "
-ERROR(cortex-m-rt): the start of the RAM region must be 4-byte aligned");
+ASSERT(ORIGIN(FLASH) % 4 == 0, "
+ERROR(cortex-m-rt): the start of the FLASH region must be 4-byte aligned");
 
 ASSERT(ORIGIN(RAM) % 4 == 0, "
 ERROR(cortex-m-rt): the start of the RAM region must be 4-byte aligned");
@@ -250,9 +252,9 @@ ASSERT(ADDR(.vector_table) + SIZEOF(.vector_table) <= _stext, "
 ERROR(cortex-m-rt): The .text section can't be placed inside the .vector_table section
 Set _stext to an address greater than the end of .vector_table (See output of `nm`)");
 
-/*ASSERT(_stext + SIZEOF(.text) < ORIGIN(RAM) + LENGTH(RAM), "
-ERROR(cortex-m-rt): The .text section must be placed inside the RAM memory.
-Set _stext to an address smaller than 'ORIGIN(RAM) + LENGTH(RAM)'");*/
+ASSERT(_stext + SIZEOF(.text) < ORIGIN(FLASH) + LENGTH(FLASH), "
+ERROR(cortex-m-rt): The .text section must be placed inside the FLASH memory.
+Set _stext to an address smaller than 'ORIGIN(FLASH) + LENGTH(FLASH)'");
 
 /* # Other checks */
 ASSERT(SIZEOF(.got) == 0, "
@@ -266,8 +268,7 @@ the -fPIC flag. See the documentation of the `cc::Build.pic` method for details.
 /* This will usually be provided by a device crate generated using svd2rust (see `device.x`) */
 INCLUDE device.x
 
-ASSERT(SIZEOF(.vector_table) > 0x40, "
-There can't be more than 32 interrupt handlers. This may be a bug in
-your device crate, or you may have registered more than 32 interrupt
+ASSERT(SIZEOF(.vector_table) <= 0x400, "
+There can't be more than 240 interrupt handlers. This may be a bug in
+your device crate, or you may have registered more than 240 interrupt
 handlers.");
-

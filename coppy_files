@@ -1,7 +1,56 @@
 #!/bin/zsh
 
-for file in $(find test_code/target/thumbv7m-none-eabi/debug/examples/ -type f | awk -e '/.[a-z]*_[a-z]*$/'); do
-cp $file ./test_binarys
+echo "Clearing previous log"
+rm -f exec.log;
+rm -f cargo.log;
+
+target="./test_code/target/thumb$1-none-eabi/debug/examples/"
+rm -rf "$target*";
+rm -rf "./test_binarys/*";
+
+cd test_code
+
+cargo build --examples --target thumb$1-none-eabi --quiet
+
+cd ..
+
+echo "Loading binaries for thumb$1-none-eabi";
+
+
+echo "Testing order :"
+for file in $(find $target -type f | awk -e '/.[a-z]*_[a-z]*$/'); do
+	cp $file ./test_binarys
+	file=$(basename $file)
+	echo "\t$file"
 done
+
+
+echo "Running examples $(find ./test_binarys -type -f)"
+
+cargo run --quiet > cargo.log &
+
+# Get the PID of the cargo process
+cargo_pid=$!
+
+# Function to print a dot every half second
+print_dot() {
+	counter=0
+   	local -a marks=( '/' '-' '\' '|' )
+	while ps -p $cargo_pid > /dev/null; do
+		# Thanks to https://stackoverflow.com/questions/22569195/is-it-possible-to-print-a-spinning-cursor-in-a-terminal-using-bash-scripting
+		printf '%s\r\r\r' "${marks[i++ % ${#marks[@]}]}"
+		sleep 0.5
+	done
+}
+
+# Call the function in the background
+print_dot &
+
+# Wait for cargo run to finish
+wait $cargo_pid
+
+echo "Testing completed"
+
+
 
 

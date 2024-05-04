@@ -9,7 +9,6 @@ use symex::{general_assembly::RunConfig, run_elf};
 use std::fs::File;
 use std::io::prelude::*;
 
-
 struct Measurement {
     name: String,
     hw: u64,
@@ -38,7 +37,9 @@ fn main() {
         let path = to_test.unwrap().path();
         let path_str = path.to_string_lossy().to_string();
         let name = path_str.split('/').last().unwrap();
+        println!("Measuring : {name}");
         let hw_measurement = measure_hw(&path_str, &mut session);
+        println!("HW : {hw_measurement}");
 
         let symex_measurement = measure_symex(&path_str);
 
@@ -47,9 +48,17 @@ fn main() {
         //     hw: hw_measurement,
         //     symex: symex_measurement,
         // };
-
-        let mut f = File::options().create(true).append(true).open("exec.log").unwrap();
-        write!(&mut f,"Name : {name} \n\thw \t: {hw_measurement} \n\tsymex \t: {symex_measurement}\n");
+        //
+        let mut f = File::options()
+            .create(true)
+            .append(true)
+            .open("exec.log")
+            .unwrap();
+        write!(
+            &mut f,
+            "Name : {name} \n\thw \t: {hw_measurement} \n\tsymex \t: {symex_measurement}\n"
+        );
+        println!("{name} Done");
         // }
     }
 }
@@ -79,12 +88,21 @@ fn measure_hw(path: &str, session: &mut Session) -> u64 {
     // core.reset();
     // // Setup for measurement
     // core.halt(Duration::from_millis(500)).unwrap();
-    // for i in 0..400 {
+    // let end_val: u32 = core.read_core_reg(15).unwrap();
+    // let mut started = false;
+    // for i in 0..6000 {
     //     core.step();
-    //     let val:u32 = core.read_core_reg(15).unwrap();
-    //     println!("PC : {:#04x}",val);
+    //     let val: u32 = core.read_core_reg(15).unwrap();
+    //     if val < end_val {
+    //         started = true;
+    //     }
+    //     if started && val > end_val {
+    //         println!("BACK IN MAIN");
+    //         break;
+    //     }
+    //     println!("PC : {:#04x}", val);
     // }
-    // core.reset();
+    core.reset();
 
     core.halt(Duration::from_millis(500)).unwrap();
     core.clear_all_hw_breakpoints().unwrap();
@@ -106,6 +124,6 @@ fn measure_hw(path: &str, session: &mut Session) -> u64 {
 
     // calculate a measured time
     // compensate for bkpt discrepancy by subtracting 6 (determined by experimentation)
-    let diff = start - end - 6;
+    let diff = start - end - 5;
     diff as u64
 }

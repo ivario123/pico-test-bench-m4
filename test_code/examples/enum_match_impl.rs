@@ -1,6 +1,7 @@
-//! Tests enum matching.
-//!
-//! This example works as of May the 4th 2024.
+//! Tests enum matching, this method produces 8 paths which is correct as the compiler flattens
+//! both the paths that return `1` in to one path. Chaning one of the return values proves that
+//! this assumption is correct.
+
 #![no_std]
 #![no_main]
 
@@ -9,10 +10,12 @@ use defmt::*;
 use defmt_rtt as _;
 use panic_probe as _;
 use symex_lib::any;
+use symex_lib::assume;
 use symex_lib::end_cyclecount;
 use symex_lib::start_cyclecount;
 use symex_lib::symbolic;
 use symex_lib::Any;
+use symex_lib::Valid;
 
 use core::arch::asm;
 use nrf52840_hal as hal;
@@ -43,6 +46,22 @@ fn main() -> ! {
     let val = test_any();
     info!("any: {}", val);
     loop {}
+}
+
+#[inline(never)]
+#[no_mangle]
+fn measure() -> u16 {
+    let input: TestEnum = any();
+    start_cyclecount();
+    unsafe {
+        asm!("bkpt 1");
+    }
+    let r = handle_test_enum(input);
+    unsafe {
+        asm!("bkpt 1");
+    }
+    end_cyclecount();
+    r
 }
 
 enum Inner {
@@ -81,20 +100,36 @@ impl Any for TestEnum {
     }
 }
 
-#[inline(never)]
-#[no_mangle]
-fn measure() -> u16 {
-    let input: TestEnum = any();
-    start_cyclecount();
-    unsafe {
-        asm!("bkpt 1");
+enum TestEnum2 {
+    One,
+    Two,
+    Three(u16),
+    Four(u16),
+    Five(u16),
+}
+
+impl Valid for TestEnum2 {
+    #[inline(never)]
+    fn is_valid(&self) -> bool {
+        let input = &unsafe {
+            let raw_pointer = core::ptr::addr_of!(*self);
+            core::ptr::read_volatile(raw_pointer as *const Self)
+        };
+
+        if let TestEnum2::One = input {
+            true
+        } else if let TestEnum2::Two = input {
+            true
+        } else if let TestEnum2::Three(t) = input {
+            t.is_valid()
+        } else if let TestEnum2::Four(t) = input {
+            t.is_valid()
+        } else if let TestEnum2::Five(t) = input {
+            t.is_valid()
+        } else {
+            false
+        }
     }
-    let r = handle_test_enum(input);
-    unsafe {
-        asm!("bkpt 1");
-    }
-    end_cyclecount();
-    r
 }
 
 #[inline(never)]
@@ -103,6 +138,29 @@ fn test_any() -> u16 {
     let input: TestEnum = any();
     let r = handle_test_enum(input);
     r
+}
+
+#[inline(never)]
+#[no_mangle]
+fn test_validate() -> u16 {
+    let mut input: TestEnum2 = TestEnum2::One;
+    symbolic(&mut input);
+    //enum_2_if(&input);
+    assume(input.is_valid());
+    let r = handle_test_enum2(input);
+    r
+}
+
+#[inline(never)]
+#[no_mangle]
+fn handle_test_enum2(n: TestEnum2) -> u16 {
+    match n {
+        TestEnum2::One => 1,
+        TestEnum2::Two => simple_if(2),
+        TestEnum2::Three(v) => v,
+        TestEnum2::Four(i1) => i1 + i1,
+        TestEnum2::Five(v) => simple_if(v),
+    }
 }
 
 #[inline(never)]

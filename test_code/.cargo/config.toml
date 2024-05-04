@@ -1,5 +1,5 @@
 [target.'cfg(all(target_arch = "arm", target_os = "none"))']
-runner = "probe-rs run --chip nRF52840_xxAA --protocol swd "
+runner = "probe-rs run --chip nRF52840_xxAA --protocol swd"
 
 rustflags = [
     # "-C",
@@ -25,4 +25,4 @@ rustflags = [
 target = "thumbv7m-none-eabi"
 
 [env]
-DEFMT_LOG = "debug"
+DEFMT_LOG = "info"

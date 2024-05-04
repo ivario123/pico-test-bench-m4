@@ -6,22 +6,20 @@
 use cortex_m_rt::entry;
 use defmt::*;
 use defmt_rtt as _;
-use hal::pac::SYST;
 use panic_probe as _;
+use symex_lib::assume;
 use symex_lib::end_cyclecount;
 use symex_lib::start_cyclecount;
+use symex_lib::symbolic;
 
 use core::arch::asm;
-use core::fmt::Write;
-use hal::{gpio, uarte, uarte::Uarte};
 use nrf52840_hal as hal;
-use nrf52840_hal::prelude::*;
 use nrf52840_hal::pac;
 
 #[entry]
 fn main() -> ! {
     info!("Ex1 start");
-    let mut pac = pac::Peripherals::take().unwrap();
+    let pac = pac::Peripherals::take().unwrap();
     let core = pac::CorePeripherals::take().unwrap();
     let _clocks = hal::clocks::Clocks::new(pac.CLOCK).enable_ext_hfosc();
     let systic_reload_time: u32 = 0x00ffffff;
@@ -29,55 +27,26 @@ fn main() -> ! {
     systic.set_clock_source(cortex_m::peripheral::syst::SystClkSource::External);
     systic.set_reload(systic_reload_time);
     systic.enable_counter();
-    //measure_hw();
-    //small_timing_test();
-    //smaller_timing_test();
-    //measure_symex();
-    let r = measure(pac.PADS_BANK0, pac.PWM, pac.IO_BANK0, pac.SIO, pac.RESETS, core);
+    let r = measure();
     info!("r: {}", r);
     loop {}
 }
 
 #[inline(never)]
 #[no_mangle]
-fn measure(PADS_BANK0: pac::PADS_BANK0, PWM: pac::PWM, IO_BANK0: pac::IO_BANK0, SIO: pac::SIO, mut RESETS: pac::RESETS, core: cortex_m::Peripherals) -> u16 {
-
-    let sio = Sio::new(SIO);
-
-    // Set the pins up according to their function on this particular board
-    let pins = rp_pico::Pins::new(
-        IO_BANK0,
-        PADS_BANK0,
-        sio.gpio_bank0,
-        &mut RESETS,
-    );
-
-    // Init PWMs
-    let mut pwm_slices = pwm::Slices::new(PWM, &mut RESETS);
-
-    // Configure PWM0
-    let pwm = &mut pwm_slices.pwm0;
-    //pwm.set_ph_correct();
-    pwm.set_div_int(20u8); // 50 hz
-    pwm.enable();
-
-    // Output channel B on PWM0 to the GPIO1 pin
-    let channel = &mut pwm.channel_b;
-    channel.output_to(pins.gpio1);
-
-    let systic_reload_time: u32 = 0x00ffffff;
-    let mut systic = core.SYST;
-    systic.set_clock_source(SystClkSource::Core);
-    systic.set_reload(systic_reload_time);
-    systic.enable_counter();
-
-    let mut old_data = Frame { data: [0; 24], index: 24, last: 4 };
+fn measure() -> u16 {
+    let mut old_data = Frame {
+        data: [0; 24],
+        index: 24,
+        last: 4,
+    };
     symbolic(&mut old_data.data);
     symbolic(&mut old_data.index);
     symbolic(&mut old_data.last);
     assume(old_data.index <= 24);
     let mut new_data = 4;
     symbolic(&mut new_data);
+
     start_cyclecount();
     unsafe {
         asm!("bkpt 1");
@@ -92,10 +61,7 @@ fn measure(PADS_BANK0: pac::PADS_BANK0, PWM: pac::PWM, IO_BANK0: pac::IO_BANK0, 
 
 #[inline(never)]
 #[no_mangle]
-fn handle_inputs(
-    old_data: &mut Frame,
-    new_data: u8,
-) -> u16 {
+fn handle_inputs(old_data: &mut Frame, new_data: u8) -> u16 {
     let channels = match old_data.push_and_try_parse(new_data) {
         Ok(c) => c,
         Err(_) => return 0,
@@ -113,7 +79,7 @@ fn calculate_pwm_value(channel_value: u16) -> u16 {
     minus.abs() as u16
 }
 
-pub struct Frame{
+pub struct Frame {
     data: [u8; 24],
     index: usize,
     last: u8,
@@ -122,12 +88,10 @@ pub struct Frame{
 /// Sbus channels.
 pub type Channels = [u16; 17];
 
-
 impl Frame {
-
     /// Creates a new Frame that is used as a buffer to parse out the channels.
     pub const fn new() -> Frame {
-        Frame{
+        Frame {
             data: [0; 24],
             index: 0,
             last: 0x0F,
@@ -135,7 +99,7 @@ impl Frame {
     }
 
     /// The function that takes in the most recent message in data and tries to parse the frame.
-    /// If the frame is complete and can be parsed it returns Ok with the channels otherwise 
+    /// If the frame is complete and can be parsed it returns Ok with the channels otherwise
     /// it returns Err which indicates that no complete frame was found at this point.
     #[inline(never)]
     pub fn push_and_try_parse(&mut self, data: u8) -> Result<Channels, ()> {
@@ -147,7 +111,9 @@ impl Frame {
 
         if self.index == 0 {
             // Se if the current data is a header and therefore start of frame.
-            if (data == SBUS_HEADER) && ((self.last == SBUS_FOOTER) || ((self.last & SBUS_2MASK) == SBUS_2FOOTER)) {
+            if (data == SBUS_HEADER)
+                && ((self.last == SBUS_FOOTER) || ((self.last & SBUS_2MASK) == SBUS_2FOOTER))
+            {
                 // Start of frame found start filling up data.
                 self.data[self.index] = data;
                 self.index += 1;
@@ -178,26 +144,63 @@ impl Frame {
 
     #[inline(never)]
     fn to_channels(&self) -> Channels {
-        let mut channels : [u16; 17] = [0; 17];
+        let mut channels: [u16; 17] = [0; 17];
 
         channels[0] = (((self.data[1]) as u16 | ((self.data[2] as u16) << 8)) & 0x07FF).into();
-        channels[1] = (((((self.data[2] as u16) >> 3) | ((self.data[3] as u16) << 5)) as u16) & 0x07FF).into();
-        channels[2] = (((((self.data[3] as u16) >> 6) | ((self.data[4] as u16) << 2) | ((self.data[5] as u16) << 10)) as u16) & 0x07FF).into();
-        channels[3] = (((((self.data[5] as u16) >> 1) | ((self.data[6] as u16) << 7)) as u16) & 0x07FF).into();
-        channels[4] = (((((self.data[6] as u16) >> 4) | ((self.data[7] as u16) << 4)) as u16) & 0x07FF).into();
-        channels[5] = (((((self.data[7] as u16) >> 7) | ((self.data[8] as u16) << 1) | ((self.data[9] as u16) << 9)) as u16) & 0x07FF).into();
-        channels[6] = (((((self.data[9] as u16) >> 2) | ((self.data[10] as u16) << 6)) as u16) & 0x07FF).into();
-        channels[7] = (((((self.data[10] as u16) >> 5) | ((self.data[11] as u16) << 3)) as u16) & 0x07FF).into();
-        channels[8] = ((((self.data[12] as u16) | ((self.data[13] as u16) << 8)) as u16) & 0x07FF).into();
-        channels[9] = (((((self.data[13] as u16) >> 3) | ((self.data[14] as u16) << 5)) as u16) & 0x07FF).into();
-        channels[10] = (((((self.data[14] as u16) >> 6) | ((self.data[15] << 2) as u16) | ((self.data[16] as u16) << 10)) as u16) & 0x07FF).into();
-        channels[11] = (((((self.data[16] as u16) >> 1) | ((self.data[17] as u16) << 7)) as u16) & 0x07FF).into();
-        channels[12] = (((((self.data[17] as u16) >> 4) | ((self.data[18] as u16) << 4)) as u16) & 0x07FF).into();
-        channels[13] = (((((self.data[18] as u16) >> 7) | ((self.data[19] as u16) << 1) | ((self.data[20] as u16) << 9)) as u16) & 0x07FF) .into();
-        channels[14] = ((((self.data[20] as u16) >> 2) | ((self.data[21] as u16) << 6) as u16) & 0x07FF).into();
-        channels[15] = (((((self.data[21] as u16) >> 5) | ((self.data[22] as u16) << 3)) as u16) & 0x07FF).into();
+        channels[1] = (((((self.data[2] as u16) >> 3) | ((self.data[3] as u16) << 5)) as u16)
+            & 0x07FF)
+            .into();
+        channels[2] = (((((self.data[3] as u16) >> 6)
+            | ((self.data[4] as u16) << 2)
+            | ((self.data[5] as u16) << 10)) as u16)
+            & 0x07FF)
+            .into();
+        channels[3] = (((((self.data[5] as u16) >> 1) | ((self.data[6] as u16) << 7)) as u16)
+            & 0x07FF)
+            .into();
+        channels[4] = (((((self.data[6] as u16) >> 4) | ((self.data[7] as u16) << 4)) as u16)
+            & 0x07FF)
+            .into();
+        channels[5] = (((((self.data[7] as u16) >> 7)
+            | ((self.data[8] as u16) << 1)
+            | ((self.data[9] as u16) << 9)) as u16)
+            & 0x07FF)
+            .into();
+        channels[6] = (((((self.data[9] as u16) >> 2) | ((self.data[10] as u16) << 6)) as u16)
+            & 0x07FF)
+            .into();
+        channels[7] = (((((self.data[10] as u16) >> 5) | ((self.data[11] as u16) << 3)) as u16)
+            & 0x07FF)
+            .into();
+        channels[8] =
+            ((((self.data[12] as u16) | ((self.data[13] as u16) << 8)) as u16) & 0x07FF).into();
+        channels[9] = (((((self.data[13] as u16) >> 3) | ((self.data[14] as u16) << 5)) as u16)
+            & 0x07FF)
+            .into();
+        channels[10] = (((((self.data[14] as u16) >> 6)
+            | ((self.data[15] << 2) as u16)
+            | ((self.data[16] as u16) << 10)) as u16)
+            & 0x07FF)
+            .into();
+        channels[11] = (((((self.data[16] as u16) >> 1) | ((self.data[17] as u16) << 7)) as u16)
+            & 0x07FF)
+            .into();
+        channels[12] = (((((self.data[17] as u16) >> 4) | ((self.data[18] as u16) << 4)) as u16)
+            & 0x07FF)
+            .into();
+        channels[13] = (((((self.data[18] as u16) >> 7)
+            | ((self.data[19] as u16) << 1)
+            | ((self.data[20] as u16) << 9)) as u16)
+            & 0x07FF)
+            .into();
+        channels[14] = ((((self.data[20] as u16) >> 2) | ((self.data[21] as u16) << 6) as u16)
+            & 0x07FF)
+            .into();
+        channels[15] = (((((self.data[21] as u16) >> 5) | ((self.data[22] as u16) << 3)) as u16)
+            & 0x07FF)
+            .into();
         channels[16] = self.data[23] as u16;
-        
+
         return channels;
     }
 }
